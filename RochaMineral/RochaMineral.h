@@ -18,6 +18,6 @@ int getValor(RochaMineral* rocha);
 
 void setId(RochaMineral* rocha, int id);
 void setPeso(RochaMineral* rocha, int peso);
-void serValor(RochaMineral* rocha, int valor);
+void setValor(RochaMineral* rocha, int valor);
 
 #endif

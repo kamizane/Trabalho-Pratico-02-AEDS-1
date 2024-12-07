@@ -30,6 +30,6 @@ void setId(RochaMineral* rocha, int id){
 void setPeso(RochaMineral* rocha, int peso){
     rocha->peso = peso;
 }
-void serValor(RochaMineral* rocha, int valor){
+void setValor(RochaMineral* rocha, int valor){
     rocha->valor = valor;
 }

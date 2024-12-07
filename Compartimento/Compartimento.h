@@ -24,7 +24,7 @@ typedef struct{
 } Compartimento;
 
 
-void faz_compartimento_vazio(Compartimento* compartimento);
+void faz_compartimento_vazio(Compartimento* compartimento, int peso_maximo);
 
 int tamanho_do_compartimento(Compartimento* compartimento);
 

@@ -4,13 +4,13 @@
 #include "./Compartimento.h"
 
 
-void faz_compartimento_vazio(Compartimento* compartimento){ //cria um compartimento vazio com um peso maximo fornecido pelo usuario
+void faz_compartimento_vazio(Compartimento* compartimento, int peso_maximo){ //cria um compartimento vazio com um peso maximo fornecido pelo usuario
     compartimento->primeiro = (Ccelula*) malloc(sizeof(Ccelula));
     compartimento->ultimo = compartimento->primeiro;
     compartimento->primeiro->prox = NULL;
     compartimento->tamanho = 0;
     compartimento->peso_atual = 0;
-    compartimento->peso_maximo = 40;
+    compartimento->peso_maximo = peso_maximo;
 
 }
 
@@ -24,23 +24,18 @@ int compartimento_eh_vazio(Compartimento* compartimento){
 
 int imprime_compartimento(Compartimento* compartimento){  //imprime as rochas presentes no compartimento com a sua categoria e peso  
     Ccelula* celula;
-    
     //verifica se é vazio antes de fazer qualquer impressão
     if (compartimento_eh_vazio(compartimento)){
         printf("compartimento vazio!\n");
         return 0;
     }
-    
     //percorre todas as rochas, imprimindo-as
     celula = compartimento->primeiro->prox;
-    do{
-
+    while(celula != NULL){
         printf("%d %d\n", celula->rocha.peso, celula->rocha.valor);
            
         celula = celula->prox;
-      
-    }while(celula != NULL);
-  
+    };
     return 1;
 }
 
