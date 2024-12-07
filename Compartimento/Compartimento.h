@@ -24,7 +24,7 @@ typedef struct{
 } Compartimento;
 
 
-void faz_compartimento_vazio(Compartimento* compartimento, float peso_max);
+void faz_compartimento_vazio(Compartimento* compartimento);
 
 int tamanho_do_compartimento(Compartimento* compartimento);
 
@@ -38,7 +38,6 @@ int trocar_rocha(Compartimento* compartimento, RochaMineral* rocha);
 
 int inserir_rocha(Compartimento* compartimento, RochaMineral* rocha);
 
-int remover_rocha(Compartimento* compartimento, char categoria[], RochaMineral* rocha_retirada);
 
 
 #endif
