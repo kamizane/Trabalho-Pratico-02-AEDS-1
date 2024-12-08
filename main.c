@@ -3,10 +3,15 @@
 #include <string.h>
 #include "Sonda_espacial/Sonda_espacial.h"
 #include "Lista_sondas_espaciais/Lista_sonda_espacial.h"
+#include <time.h>
 
 FILE *leitura_arq(int argc, char **argv);
+void combinacao(int lista[], int listaTemp[], int inicio, int fim, int indice, int r);
 
 int main(int argc, char **argv){
+
+    //registra o tempo de início
+    clock_t inicio = clock();
 
     if(leitura_arq(argc, argv) != 0){
         FILE *file = leitura_arq(argc,argv);
@@ -48,8 +53,15 @@ int main(int argc, char **argv){
             Id_rocha++;
             inserir_rocha(&compartimento_rochas, &rocha);
         }
+        //registra o tempo de término
+        clock_t fim = clock();
 
+        //calcula o tempo total
+        double tempoTotal = (double)(fim - inicio)/CLOCKS_PER_SEC;
+    
+        printf("Tempo gasto: %f segundos\n", tempoTotal);
     }
+
     return 0;
 }
 
@@ -63,4 +75,17 @@ FILE *leitura_arq(int argc, char **argv){
     else{
         return 0;
     }
+}
+void combinacao(int lista[], int listaTemp[], int inicio, int fim, int indice, int r){
+  if (indice == r){
+    for (int j = 0; j < r; j++)
+      printf("%d ", listaTemp[j]);
+    printf("\n");
+    return;
+  }
+ 
+  for (int i = inicio; i <= fim && fim-i+1 >= r - indice; i++){
+    listaTemp[indice] = lista[i];
+    combinacao(lista, listaTemp, i+1, fim, indice + 1, r);
+  }
 }
