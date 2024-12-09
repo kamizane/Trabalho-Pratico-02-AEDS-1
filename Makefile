@@ -1,2 +1,2 @@
 compile: main.c Compartimento/Compartimento.c RochaMineral/RochaMineral.c Sonda_espacial/Sonda_espacial.c Lista_sondas_espaciais/Lista_sonda_espacial.c
-	gcc -o main main.c Compartimento/Compartimento.c RochaMineral/RochaMineral.c Sonda_espacial/Sonda_espacial.c Lista_sondas_espaciais/Lista_sonda_espacial.c
+	gcc -o main main.c Compartimento/Compartimento.c RochaMineral/RochaMineral.c Sonda_espacial/Sonda_espacial.c Lista_sondas_espaciais/Lista_sonda_espacial.c -Wall -Wextra -g

@@ -8,8 +8,8 @@ typedef struct {
     Compartimento Compartimento;
 }Sonda_espacial;
 
-void inicializa_Sonda_Espacial(Sonda_espacial * sonda, char * id);
+void inicializa_Sonda_Espacial(Sonda_espacial * sonda, char * id, int peso);
 void set_Identificador(Sonda_espacial*sonda, char * id);
-void set_Compartimento(Sonda_espacial*sonda);
+void set_Compartimento(Sonda_espacial*sonda, int peso);
 
 #endif
