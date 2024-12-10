@@ -18,8 +18,9 @@ typedef struct{
     Ccelula * primeiro;
     Ccelula * ultimo;
     int tamanho;
-    float peso_atual;
-    float peso_maximo;
+    int valor;
+    int peso_atual;
+    int peso_maximo;
 
 } Compartimento;
 

@@ -11,6 +11,7 @@ void faz_compartimento_vazio(Compartimento* compartimento, int peso_maximo){ //c
     compartimento->tamanho = 0;
     compartimento->peso_atual = 0;
     compartimento->peso_maximo = peso_maximo;
+    compartimento->valor = 0;
 
 }
 
@@ -75,5 +76,6 @@ int inserir_rocha(Compartimento* compartimento, RochaMineral* rocha){ //adiciona
     compartimento->ultimo->prox = NULL;
     compartimento->tamanho++;
     compartimento->peso_atual += rocha->peso;
+    compartimento->valor += rocha->valor;
     return 1;
 }
