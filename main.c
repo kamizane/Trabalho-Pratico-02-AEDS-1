@@ -10,7 +10,7 @@
 
 FILE *leitura_arq(int argc, char **argv);
 void combinacao(RochaMineral lista_rochas[], RochaMineral lista_temp[], Sonda_espacial * sonda, int inicio, int fim, int indice, int r, int * maior_valor, int * peso_maior, int * qnt_rochas_maior, RochaMineral lista_melhor_comb[]);
-void problema_do_compartimento(RochaMineral lista_rochas[], Lista_sonda_espacial * Lista_sonda_espacial, int N_rochas);
+void problema_do_compartimento(RochaMineral lista_rochas[], Lista_sonda_espacial * Lista_sonda_espacial, int *N_rochas);
 int qtdCombinacoes(int n, int p);
 int arranjo(int n, int p);
 int permutacao(int n);
@@ -60,7 +60,7 @@ int main(int argc, char **argv){
             Id_rocha++;
             lista_rochas[i] = rocha;
         }
-        problema_do_compartimento(lista_rochas, &lista_de_sondas_file, N_rochas);
+        problema_do_compartimento(lista_rochas, &lista_de_sondas_file, &N_rochas);
 
         //registra o tempo de término
         clock_t fim = clock();
@@ -85,16 +85,55 @@ FILE *leitura_arq(int argc, char **argv){
     }
 }
 
-void problema_do_compartimento(RochaMineral lista_rochas[], Lista_sonda_espacial * Lista_sonda_espacial, int N_rochas){
+void problema_do_compartimento(RochaMineral lista_rochas[], Lista_sonda_espacial * Lista_sonda_espacial, int *N_rochas){
     //DECLARAR LISTA DE COMBINAÇÕES
-  
-    for(int r = 1; r <= N_rochas; r++){
+    RochaMineral matriz[*N_rochas][*N_rochas];
+    for(int r = 1; r <= *N_rochas; r++){
         RochaMineral lista_temp[r];
         RochaMineral lista_melhor_combinacao[r];
         //ADICIONA A MELHOR COMBINAÇÃO DO TAMANHO R À LISTA DE COMBINAÇÕES USANDO O RETURN:
         //listaCombinacoes[i] = combinacao(...);
         int maior_valor = 0, peso_maior = 0, qnt_rochas_maior = 0;
-        combinacao(lista_rochas, lista_temp, &Lista_sonda_espacial->pPrimeiro->pProx->item_sonda, 0, N_rochas-1, 0, r,&maior_valor, &peso_maior, &qnt_rochas_maior, lista_melhor_combinacao);
+        combinacao(lista_rochas, lista_temp, &Lista_sonda_espacial->pPrimeiro->pProx->item_sonda, 0, *N_rochas-1, 0, r,&maior_valor, &peso_maior, &qnt_rochas_maior, lista_melhor_combinacao);
+        for (int count = 0; count < r; count++){
+            matriz[r-1][count] = lista_melhor_combinacao[count];
+        }
+    }
+    printf("-----------------------------------\n");
+    for(int i = 0; i <*N_rochas; i++){
+      for(int j = 0; j<i+1; j++){
+        printf("%d ", matriz[i][j].valor);
+      }
+      printf("\n");
+    }
+    printf("-----------------------------------\n");
+    int melhor_comb_valores = 0;
+    int melhor_atual = 0;
+    RochaMineral melhor_comb[*N_rochas];
+    printf("%d\n", *N_rochas);
+    int aux=0;
+    for(int i = 0; i <*N_rochas; i++){
+      for(int j = 0; j<i+1; j++){
+        melhor_atual += matriz[i][j].valor;
+      }
+      if (melhor_atual >= melhor_comb_valores){
+        aux = i+1;
+        melhor_comb_valores = melhor_atual;
+        for(int k = 0;  k<aux; k++){
+          melhor_comb[k] = matriz[i][k];
+        }
+      }
+    }
+    for(int i= 0; i<aux; i++){
+      printf("%d ", melhor_comb[i].valor);
+      inserir_rocha(&Lista_sonda_espacial->pPrimeiro->pProx->item_sonda.Compartimento,&melhor_comb[i]);
+      for(int j=0;j<*N_rochas; j++){
+        if(melhor_comb[i].id == lista_rochas[j].id){
+          lista_rochas[j] = lista_rochas[*N_rochas-1];
+          *N_rochas = *N_rochas-1;
+        }
+        
+      }
     }
 
   //comparar qual é a melhor combinacao dentre as melhores combinações de cada tamanho
@@ -128,7 +167,7 @@ void combinacao(RochaMineral lista_rochas[], RochaMineral lista_temp[], Sonda_es
             *qnt_rochas_maior = qnt_rochas_atual;
             *peso_maior = peso_atual;
             for (int k = 0; k < r; k++){
-            lista_melhor_comb[k] = lista_temp[k];
+              lista_melhor_comb[k] = lista_temp[k];
             }
 
         }

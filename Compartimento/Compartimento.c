@@ -69,15 +69,11 @@ int trocar_rocha(Compartimento* compartimento, RochaMineral* rocha){
 
 
 int inserir_rocha(Compartimento* compartimento, RochaMineral* rocha){ //adiciona rocha ao compartimento
-    if((compartimento->peso_atual + rocha->peso) <= compartimento->peso_maximo){
-        compartimento->ultimo->prox = (Ccelula*) malloc(sizeof(Ccelula));
-        compartimento->ultimo = compartimento->ultimo->prox;
-        compartimento->ultimo->rocha = *rocha;
-        compartimento->ultimo->prox = NULL;
-        compartimento->tamanho++;
-        compartimento->peso_atual += rocha->peso;
-        return 1;
-    }
-
-    return 0;
+    compartimento->ultimo->prox = (Ccelula*) malloc(sizeof(Ccelula));
+    compartimento->ultimo = compartimento->ultimo->prox;
+    compartimento->ultimo->rocha = *rocha;
+    compartimento->ultimo->prox = NULL;
+    compartimento->tamanho++;
+    compartimento->peso_atual += rocha->peso;
+    return 1;
 }
