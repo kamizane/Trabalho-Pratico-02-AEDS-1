@@ -17,85 +17,84 @@ int permutacao(int n);
 
 int main(int argc, char **argv){
 
-  //registra o tempo de início
-  clock_t inicio = clock();
+    //registra o tempo de início
+    clock_t inicio = clock();
 
-  if(leitura_arq(argc, argv) != 0){
-    FILE *file = leitura_arq(argc,argv);
-    if( file == NULL){
-      printf("arquivo inválido!\n");
-      return 0;
-    }
+    if(leitura_arq(argc, argv) != 0){
+        FILE *file = leitura_arq(argc,argv);
+        if( file == NULL){
+            printf("arquivo inválido!\n");
+            return 0;
+        }
 
-    //cria e inicializa lista sonda espacial
-    Lista_sonda_espacial lista_de_sondas_file;
-    inicializa_lista_sonda_espacial(&lista_de_sondas_file);
+        //cria e inicializa lista sonda espacial
+        Lista_sonda_espacial lista_de_sondas_file;
+        inicializa_lista_sonda_espacial(&lista_de_sondas_file);
 
-    //inicializa as sondas de acordo com o máximo de sondas
-    for(int i = 0; i<N_sonda; i++){
-      char id[20];
-      sprintf(id, "%d", i+1);
-      Sonda_espacial sonda_i;
-      inicializa_Sonda_Espacial(&sonda_i,id, max_peso_compartimento);
-    }
+        //inicializa as sondas de acordo com o máximo de sondas
+        for(int i = 0; i<N_sonda; i++){
+            char id[20];
+            sprintf(id, "%d", i+1);
+            Sonda_espacial sonda_i;
+            inicializa_Sonda_Espacial(&sonda_i,id, max_peso_compartimento);
+        }
 
-    //le o numero de rochas
-    int N_rochas = 0;
-    fscanf(file,"%d",&N_rochas);
-    fgetc(file);
-
-    //pega as rochas e coloca em uma lista
-    int Id_rocha=0;
-
-    RochaMineral* lista_rochas = (RochaMineral*) malloc(N_rochas * sizeof(RochaMineral)); //faz lista de rochas para redistribuir depois
-
-    for (int i = 0; i < N_rochas; i++){
-        int peso = 0, valor = 0;
-        RochaMineral rocha;
-        fscanf(file,"%d", &peso);
+        //le o numero de rochas
+        int N_rochas = 0;
+        fscanf(file,"%d",&N_rochas);
         fgetc(file);
-        fscanf(file, "%d", &valor);
-        fgetc(file);
-        inicializaRochaMineral(&rocha,Id_rocha,peso,valor);
-        Id_rocha++;
-        lista_rochas[i] = rocha;
+
+        //pega as rochas e coloca em uma lista
+        int Id_rocha=0;
+
+        RochaMineral* lista_rochas = (RochaMineral*) malloc(N_rochas * sizeof(RochaMineral)); //faz lista de rochas para redistribuir depois
+
+        for (int i = 0; i < N_rochas; i++){
+            int peso = 0, valor = 0;
+            RochaMineral rocha;
+            fscanf(file,"%d", &peso);
+            fgetc(file);
+            fscanf(file, "%d", &valor);
+            fgetc(file);
+            inicializaRochaMineral(&rocha,Id_rocha,peso,valor);
+            Id_rocha++;
+            lista_rochas[i] = rocha;
+        }
+        problema_do_compartimento(lista_rochas, &lista_de_sondas_file, N_rochas);
+
+        //registra o tempo de término
+        clock_t fim = clock();
+
+        //calcula o tempo total
+        double tempoTotal = (double)(fim - inicio)/CLOCKS_PER_SEC;
+
+        printf("Tempo gasto: %f segundos\n", tempoTotal);
     }
-    problema_do_compartimento(lista_rochas, &lista_de_sondas_file, N_rochas);
 
-    //registra o tempo de término
-    clock_t fim = clock();
-
-    //calcula o tempo total
-    double tempoTotal = (double)(fim - inicio)/CLOCKS_PER_SEC;
-
-    printf("Tempo gasto: %f segundos\n", tempoTotal);
-  }
-
-  return 0;
+    return 0;
 }
 
 FILE *leitura_arq(int argc, char **argv){
-  //verifica se existe argumentos validos para iniciar leitura por arquivo
-  if(argc > 1 && strcmp(argv[1], "-f") == 0){
-    FILE *file = fopen(argv[2],"r");
+    //verifica se existe argumentos validos para iniciar leitura por arquivo
+    if(argc > 1 && strcmp(argv[1], "-f") == 0){
+        FILE *file = fopen(argv[2],"r");
 
-    return file;
-  }
-  else{
-    return 0;
-  }
+        return file;
+    }else{
+        return 0;
+    }
 }
 
 void problema_do_compartimento(RochaMineral lista_rochas[], Lista_sonda_espacial * Lista_sonda_espacial, int N_rochas){
-  //DECLARAR LISTA DE COMBINAÇÕES
+    //DECLARAR LISTA DE COMBINAÇÕES
   
-  for(int r = 1; r <= N_rochas; r++){
-    RochaMineral lista_temp[r];
-    //ADICIONA A MELHOR COMBINAÇÃO DO TAMANHO R À LISTA DE COMBINAÇÕES USANDO O RETURN:
-    //listaCombinacoes[i] = combinacao(...);
-    static int maior_valor = 0, peso_maior = 0, qnt_rochas_maior = 0;
-    combinacao(lista_rochas, lista_temp, &Lista_sonda_espacial->pPrimeiro->pProx->item_sonda, 0, N_rochas-1, 0, r,maior_valor, peso_maior, qnt_rochas_maior);
-  }
+    for(int r = 1; r <= N_rochas; r++){
+        RochaMineral lista_temp[r];
+        //ADICIONA A MELHOR COMBINAÇÃO DO TAMANHO R À LISTA DE COMBINAÇÕES USANDO O RETURN:
+        //listaCombinacoes[i] = combinacao(...);
+        static int maior_valor = 0, peso_maior = 0, qnt_rochas_maior = 0;
+        combinacao(lista_rochas, lista_temp, &Lista_sonda_espacial->pPrimeiro->pProx->item_sonda, 0, N_rochas-1, 0, r,&maior_valor, &peso_maior, &qnt_rochas_maior);
+    }
 
   //comparar qual é a melhor combinacao dentre as melhores combinações de cada tamanho
   //ou seja, comaparar cada elemento da lista de combinacoes pra ver qual é a melhor de todas, e adicionar à sonda 1
@@ -108,51 +107,55 @@ void problema_do_compartimento(RochaMineral lista_rochas[], Lista_sonda_espacial
 
 
 void combinacao(RochaMineral lista_rochas[], RochaMineral lista_temp[], Sonda_espacial * sonda, int inicio, int fim, int indice, int r, int * maior_valor, int * peso_maior, int * qnt_rochas_maior){
-  int maior_valor_atual = 0, peso_atual = 0, qnt_rochas_atual = 0, peso_max = 40, N_rochas = fim+1;
-  static int combinacoesFeitas = 0;
-  RochaMineral lista_melhor_combinacao[r];
-  if(indice == r){
-    combinacoesFeitas++;
-    for (int j = 0; j < r; j++)
-      printf("%d ", lista_temp[j].valor);
-    printf("\n");
+    int maior_valor_atual = 0, peso_atual = 0, qnt_rochas_atual = 0, peso_max = 40, N_rochas = fim+1;
+    static int combinacoesFeitas = 0;
+    RochaMineral lista_melhor_combinacao[r];
+    if(indice == r){
+        int peso_estourou = 0;
+        combinacoesFeitas++;
+        for (int j = 0; j < r; j++)
+            printf("%d ", lista_temp[j].valor);
+        printf("\n");
 
-    for (int j = 0; j < r; j++){
-      maior_valor_atual += lista_temp[j].valor;
-      qnt_rochas_atual++;
-      peso_atual += lista_temp[j].peso;
-    }
-    if (peso_atual > peso_max){
-      return;
-    }
-    else if(maior_valor_atual > *maior_valor){
-      *maior_valor = maior_valor_atual;
-      *qnt_rochas_maior = qnt_rochas_atual;
-      *peso_maior = peso_atual;
-      for (int k = 0; k < r; k++){
-        lista_melhor_combinacao[k] = lista_temp[k];
-      }
+        for (int j = 0; j < r; j++){
+            maior_valor_atual += lista_temp[j].valor;
+            qnt_rochas_atual++;
+            peso_atual += lista_temp[j].peso;
+        }
+        if (peso_atual > peso_max){
+            peso_estourou = 1;
+            printf("uau\n");
+        }
+        else if(maior_valor_atual > *maior_valor){
+            printf("a");
+            *maior_valor = maior_valor_atual;
+            *qnt_rochas_maior = qnt_rochas_atual;
+            *peso_maior = peso_atual;
+            for (int k = 0; k < r; k++){
+            lista_melhor_combinacao[k] = lista_temp[k];
+            }
 
-    }
-    int combinacoesTotais = qtdCombinacoes(N_rochas, r);
-    //SE TODAS AS COMBINAÇÕES FORAM GERADAS E VERIFICADAS, PODEMOS RETORNAR A MELHOR COMBINAÇÃO DO TAMANHO R
-    if(combinacoesFeitas == combinacoesTotais){
-      //retornar melhor combinacao de tamanho r
-      printf("teste: ");
-      for (int j = 0; j < r; j++)
-        printf("%d ", lista_melhor_combinacao[j].valor);
-      printf("\n");
-      //return &lista_melhor_combinacao;
+        }
+        int combinacoesTotais = qtdCombinacoes(N_rochas, r);
+        //SE TODAS AS COMBINAÇÕES FORAM GERADAS E VERIFICADAS, PODEMOS RETORNAR A MELHOR COMBINAÇÃO DO TAMANHO R
+        // printf("combinacoes feitas:\n %d\n", combinacoesFeitas);
+        if(combinacoesFeitas == combinacoesTotais){
+            //retornar melhor combinacao de tamanho r
+            printf("teste: ");
+            for (int j = 0; j < r; j++)
+                printf("%d ", lista_melhor_combinacao[j].valor);
+            printf("\n");
+            //return &lista_melhor_combinacao;
 
-      combinacoesFeitas = 0;
+        combinacoesFeitas = 0;
+        }
+        return;
     }
-    return;
-  }
   
-  for (int i = inicio; i <= fim && fim-i+1 >= r - indice; i++){
-    lista_temp[indice] = lista_rochas[i];
-    combinacao(lista_rochas, lista_temp, sonda, i+1, fim, indice + 1, r, &maior_valor, &peso_maior, &qnt_rochas_maior);
-  }
+    for (int i = inicio; i <= fim && fim-i+1 >= r - indice; i++){
+        lista_temp[indice] = lista_rochas[i];
+        combinacao(lista_rochas, lista_temp, sonda, i+1, fim, indice + 1, r, maior_valor, peso_maior, qnt_rochas_maior);
+    }
 
   /*Compartimento * aux = &sonda->Compartimento;
   for (int k = 0; k < qnt_rochas_maior; k++){
@@ -164,20 +167,20 @@ void combinacao(RochaMineral lista_rochas[], RochaMineral lista_temp[], Sonda_es
 
 
 int arranjo(int n, int p){
-  if (p>1)
-      return n*arranjo(n-1,p-1);
-   else
-      return n;
+    if (p>1)
+        return n*arranjo(n-1,p-1);
+    else
+        return n;
 }
 
 int fatorial(int n){
-   if (n > 0){
-      return n*fatorial(n-1);
-   }else{
-      return 1;
-   }
+    if (n > 0){
+        return n*fatorial(n-1);
+    }else{
+        return 1;
+    }
 }
 
 int qtdCombinacoes(int n, int p){
-   return arranjo(n,p)/fatorial(p);
+    return arranjo(n,p)/fatorial(p);
 }
