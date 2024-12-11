@@ -15,15 +15,15 @@ void faz_compartimento_vazio(Compartimento* compartimento, int peso_maximo){ //c
 
 }
 
-int tamanho_do_compartimento(Compartimento* compartimento){
+int tamanho_do_compartimento(Compartimento* compartimento){//retorna o tamanho do compartimento
     return compartimento->tamanho;
 }
 
-int compartimento_eh_vazio(Compartimento* compartimento){
+int compartimento_eh_vazio(Compartimento* compartimento){//verifica se o compartimento é vazio
     return (compartimento->tamanho == 0);
 }
 
-int imprime_compartimento(Compartimento* compartimento){  //imprime as rochas presentes no compartimento com a sua categoria e peso  
+int imprime_compartimento(Compartimento* compartimento){  //imprime as rochas presentes no compartimento com o seu peso e valor
     Ccelula* celula;
     //verifica se é vazio antes de fazer qualquer impressão
     if (compartimento_eh_vazio(compartimento)){
@@ -33,41 +33,15 @@ int imprime_compartimento(Compartimento* compartimento){  //imprime as rochas pr
     //percorre todas as rochas, imprimindo-as
     celula = compartimento->primeiro->prox;
     while(celula != NULL){
-        printf("%d %d\n", celula->rocha.peso, celula->rocha.valor);
-           
+        printf("%d %d\n", celula->rocha.peso, celula->rocha.valor);  
         celula = celula->prox;
     };
     return 1;
 }
 
-float retorna_peso_atual(Compartimento* compartimento){
+float retorna_peso_atual(Compartimento* compartimento){ //retorna o peso atual
     return compartimento->peso_atual;
 }
-
-//troca rochas de lugar pela categoria, caso o peso da previamente armazenada seja superior ao da nova
-int trocar_rocha(Compartimento* compartimento, RochaMineral* rocha){
-    Ccelula* celula = compartimento->primeiro->prox;
-    
-    if (!compartimento_eh_vazio(compartimento)){
-        while (celula != NULL) {
-            if (((celula->rocha.valor)/(celula->rocha.peso)) < ((rocha->valor)/(rocha->peso))) { //compara o peso para fazer a troca se necessário
-                if (compartimento->peso_atual + rocha->peso <= compartimento->peso_maximo){
-                    compartimento->peso_atual -= celula->rocha.peso;
-                    celula->rocha = *rocha;
-                    compartimento->peso_atual += celula->rocha.peso;
-                    return 1;
-                }
-            }
-            celula = celula->prox;
-        }
-
-        return 0;
-
-    }
-
-    return 0;
-}
-
 
 int inserir_rocha(Compartimento* compartimento, RochaMineral* rocha){ //adiciona rocha ao compartimento
     compartimento->ultimo->prox = (Ccelula*) malloc(sizeof(Ccelula));

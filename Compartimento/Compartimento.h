@@ -12,7 +12,7 @@ typedef struct celula{
 } Ccelula;
 
 /*estrutura do compartimento, com o ponteiro primeiro (basico para lista encadeada),
-um ultimo, o tamanho, o peso atual e o peso máximo, que serao usados posteriormente*/
+um ultimo, o tamanho, o peso atual, o valor o peso máximo, que serao usados posteriormente*/
 typedef struct{
 
     Ccelula * primeiro;
