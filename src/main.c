@@ -39,15 +39,13 @@ int main(int argc, char **argv){
             inicializa_Sonda_Espacial(&sonda_i,id, max_peso_compartimento);
             insere_item_lista_sonda_espacial(&lista_de_sondas_file,&sonda_i);
         }
-
+        
         //le o numero de rochas
         int N_rochas = 0;
         fscanf(file,"%d",&N_rochas);
         fgetc(file);
 
-        
         int Id_rocha=0;
-
         RochaMineral* lista_rochas = (RochaMineral*) malloc(N_rochas * sizeof(RochaMineral)); //faz um vetor de rochas para redistribuir depois
         //pega as rochas e coloca no vetor
         for (int i = 0; i < N_rochas; i++){
@@ -69,7 +67,6 @@ int main(int argc, char **argv){
             sonda_atual++;
             celula_sonda = celula_sonda->pProx;
         }
-        
         //registra o tempo de término
         clock_t fim = clock();
 
@@ -78,7 +75,6 @@ int main(int argc, char **argv){
 
         printf("Tempo gasto: %f segundos\n", tempoTotal);
     }
-
     return 0;
 }
 
@@ -86,7 +82,6 @@ FILE *leitura_arq(int argc, char **argv){
     //verifica se existe argumentos validos para iniciar leitura por arquivo
     if(argc > 1 && strcmp(argv[1], "-f") == 0){
         FILE *file = fopen(argv[2],"r");
-
         return file;
     }else{
         return 0;
@@ -107,7 +102,6 @@ void problema_do_compartimento(RochaMineral lista_rochas[],Sonda_espacial * sond
             matriz[r-1][count] = lista_melhor_combinacao[count];
         }
     }
-
     int melhor_comb_valores = 0;
     int melhor_atual = 0;
     RochaMineral melhor_comb[*N_rochas];
@@ -134,7 +128,6 @@ void problema_do_compartimento(RochaMineral lista_rochas[],Sonda_espacial * sond
           lista_rochas[j] = lista_rochas[*N_rochas-1];
           *N_rochas = *N_rochas-1;//diminui o tamanho do vetor original de rochas
         }
-        
       }
     }
     printf("\n");//imprime a sonda
@@ -146,13 +139,6 @@ void problema_do_compartimento(RochaMineral lista_rochas[],Sonda_espacial * sond
         }
     }
     printf("]\n");
-  //comparar qual é a melhor combinacao dentre as melhores combinações de cada tamanho
-  //ou seja, comaparar cada elemento da lista de combinacoes pra ver qual é a melhor de todas, e adicionar à sonda 1
-
-  //fazer a mesma coisa pra sonda 2, removendo da lista_rochas as rochas já adicionadas na sonda 1
-  //fazer fazer a mesma coisa pra sonda 3, removendo da lista_rochas as rochas já adicionadas na sonda 2
-
-
 }
 
 
@@ -188,7 +174,6 @@ void combinacao(RochaMineral lista_rochas[], RochaMineral lista_temp[], Sonda_es
         lista_temp[indice] = lista_rochas[i];
         combinacao(lista_rochas, lista_temp, sonda, i+1, fim, indice + 1, r, maior_valor, peso_maior, qnt_rochas_maior, lista_melhor_comb);
     }
-
 }
 
 
