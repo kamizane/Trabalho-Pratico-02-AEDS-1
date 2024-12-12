@@ -132,7 +132,7 @@ void problema_do_compartimento(RochaMineral lista_rochas[],Sonda_espacial * sond
       for(int j=0;j<*N_rochas; j++){
         if(melhor_comb[i].id == lista_rochas[j].id){
           lista_rochas[j] = lista_rochas[*N_rochas-1];
-          *N_rochas = *N_rochas-1;//diminui o tamanho da lista de rochas
+          *N_rochas = *N_rochas-1;//diminui o tamanho do vetor original de rochas
         }
         
       }
