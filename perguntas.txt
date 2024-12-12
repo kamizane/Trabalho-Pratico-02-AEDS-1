@@ -1,3 +1,0 @@
-perguntar sobre leitura por terminal
-como setar o peso max do compartimento
-makefile

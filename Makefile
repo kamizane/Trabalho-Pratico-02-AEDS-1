@@ -1,2 +1,2 @@
-compile: main.c Compartimento/Compartimento.c RochaMineral/RochaMineral.c Sonda_espacial/Sonda_espacial.c Lista_sondas_espaciais/Lista_sonda_espacial.c
-	gcc main.c Compartimento/Compartimento.c RochaMineral/RochaMineral.c Sonda_espacial/Sonda_espacial.c Lista_sondas_espaciais/Lista_sonda_espacial.c -Wall -Wextra -g -o main
+compile: src/main.c src/Compartimento/Compartimento.c src/RochaMineral/RochaMineral.c src/Sonda_espacial/Sonda_espacial.c src/Lista_sondas_espaciais/Lista_sonda_espacial.c
+	gcc src/main.c src/Compartimento/Compartimento.c src/RochaMineral/RochaMineral.c src/Sonda_espacial/Sonda_espacial.c src/Lista_sondas_espaciais/Lista_sonda_espacial.c -Wall -Wextra -g -o main
