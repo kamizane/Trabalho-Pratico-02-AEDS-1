@@ -48,8 +48,8 @@ int main(int argc, char **argv){
         
         int Id_rocha=0;
 
-        RochaMineral* lista_rochas = (RochaMineral*) malloc(N_rochas * sizeof(RochaMineral)); //faz lista de rochas para redistribuir depois
-        //pega as rochas e coloca em uma lista
+        RochaMineral* lista_rochas = (RochaMineral*) malloc(N_rochas * sizeof(RochaMineral)); //faz um vetor de rochas para redistribuir depois
+        //pega as rochas e coloca no vetor
         for (int i = 0; i < N_rochas; i++){
             int peso = 0, valor = 0;
             RochaMineral rocha;
@@ -61,7 +61,7 @@ int main(int argc, char **argv){
             Id_rocha++;
             lista_rochas[i] = rocha;
         }
-        //faz o problema do compartimento para cada sonda
+        //faz o problema do compartimento para cada sonda na lista de sondas
         Celula * celula_sonda = lista_de_sondas_file.pPrimeiro->pProx;
         int sonda_atual = 1;
         while(celula_sonda != NULL){
@@ -107,21 +107,14 @@ void problema_do_compartimento(RochaMineral lista_rochas[],Sonda_espacial * sond
             matriz[r-1][count] = lista_melhor_combinacao[count];
         }
     }
-    // printf("-----------------------------------\n");
-    //   for(int i = 0; i <*N_rochas; i++){
-    //     for(int j = 0; j<i+1; j++){
-    //       printf("%d ", matriz[i][j].valor);
-    //     }
-    //     printf("\n");
-    //   }
-    //   printf("-----------------------------------\n");
+
     int melhor_comb_valores = 0;
     int melhor_atual = 0;
     RochaMineral melhor_comb[*N_rochas];
     // printf("%d\n", *N_rochas);
     int aux=0;
     for(int i = 0; i <*N_rochas; i++){
-      for(int j = 0; j<i+1; j++){//vai somando o valor das rochas das colunas para ver qual é a melhor
+      for(int j = 0; j<i+1; j++){//vai somando o valor das rochas na linha para ver qual é a melhor
         melhor_atual += matriz[i][j].valor;
       }
       if (melhor_atual >= melhor_comb_valores){//se for a melhor, salva
