@@ -13,7 +13,6 @@ void combinacao(RochaMineral lista_rochas[], RochaMineral lista_temp[], Sonda_es
 void problema_do_compartimento(RochaMineral lista_rochas[],Sonda_espacial * sonda,int sonda_atual, int *N_rochas);
 int qtdCombinacoes(int n, int p);
 int arranjo(int n, int p);
-int permutacao(int n);
 
 int main(int argc, char **argv){
 
@@ -39,7 +38,7 @@ int main(int argc, char **argv){
             inicializa_Sonda_Espacial(&sonda_i,id, max_peso_compartimento);
             insere_item_lista_sonda_espacial(&lista_de_sondas_file,&sonda_i);
         }
-        
+
         //le o numero de rochas
         int N_rochas = 0;
         fscanf(file,"%d",&N_rochas);
